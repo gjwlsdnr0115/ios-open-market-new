@@ -9,6 +9,7 @@ import Foundation
 
 class OpenMarketAPI {
     static let shared: OpenMarketAPI = OpenMarketAPI()
+    private let networkService: NetworkService = NetworkService()
     
     private init() {}
     
@@ -19,26 +20,9 @@ class OpenMarketAPI {
             return
         }
         
-        var request: URLRequest = URLRequest(url: url)
-        request.httpMethod = HTTPMethod.get.rawValue
-        
-        URLSession.shared.dataTask(with: request) { data, response, error in
-            if let error: Error = error {
-                completion(.error(error.localizedDescription))
-                return
-            }
-
-            guard let httpResponse: HTTPURLResponse = response as? HTTPURLResponse, (200...299).contains(httpResponse.statusCode) else {
-                completion(.error("Network Fail"))
-                return
-            }
-            
-            guard let data = data, String(decoding: data, as: UTF8.self) == "\"OK\"" else {
-                completion(.success(false))
-                return
-            }
-            completion(.success(true))
-        }.resume()
+        networkService.get(from: url, as: String.self) { networkResult in
+            completion(networkResult)
+        }
     }
     
     func getProductList(pageNo: Int, itemsPerPage: Int, completion: @escaping (NetworkResult<Any>) -> Void) {
@@ -48,26 +32,9 @@ class OpenMarketAPI {
             return
         }
         
-        var request: URLRequest = URLRequest(url: url)
-        request.httpMethod = HTTPMethod.get.rawValue
-        
-        URLSession.shared.dataTask(with: request) { data, response, error in
-            if let error: Error = error {
-                completion(.error(error.localizedDescription))
-                return
-            }
-            
-            guard let httpResponse: HTTPURLResponse = response as? HTTPURLResponse, (200...299).contains(httpResponse.statusCode) else {
-                completion(.error("Network Fail"))
-                return
-            }
-
-            guard let data: Data = data, let decodedData: ProductListData = try? JSONDecoder().decode(ProductListData.self, from: data) else {
-                completion(.error("Unable to decode data"))
-                return
-            }
-            completion(.success(decodedData))
-        }.resume()
+        networkService.get(from: url, as: ProductListData.self) { networkResult in
+            completion(networkResult)
+        }
     }
     
     func lookupProductDetail(productId: Int, completion: @escaping (NetworkResult<Any>) -> Void) {
@@ -77,26 +44,9 @@ class OpenMarketAPI {
             return
         }
         
-        var request: URLRequest = URLRequest(url: url)
-        request.httpMethod = HTTPMethod.get.rawValue
-        
-        URLSession.shared.dataTask(with: request) { data, response, error in
-            if let error: Error = error {
-                completion(.error(error.localizedDescription))
-                return
-            }
-            
-            guard let httpResponse: HTTPURLResponse = response as? HTTPURLResponse, (200...299).contains(httpResponse.statusCode) else {
-                completion(.error("Network Fail"))
-                return
-            }
-            
-            guard let data: Data = data, let decodedData: ProductData = try? JSONDecoder().decode(ProductData.self, from: data) else {
-                completion(.error("Unable to decode data"))
-                return
-            }
-            completion(.success(decodedData))
-        }.resume()
+        networkService.get(from: url, as: ProductData.self) { networkResult in
+            completion(networkResult)
+        }
     }
 }
  
