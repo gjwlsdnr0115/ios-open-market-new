@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0E21F75927A234E90040614E /* ProductCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E21F75827A234E90040614E /* ProductCollectionViewCell.swift */; };
+		0E21F75927A234E90040614E /* ProductGridCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E21F75827A234E90040614E /* ProductGridCollectionViewCell.swift */; };
 		0E64F4FF279E3E4B00AA22F2 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 0E64F4FE279E3E4B00AA22F2 /* .swiftlint.yml */; };
 		0E64F503279E436D00AA22F2 /* OpenMarketAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E64F502279E436D00AA22F2 /* OpenMarketAPI.swift */; };
 		0E64F505279E443000AA22F2 /* APIConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E64F504279E443000AA22F2 /* APIConstants.swift */; };
@@ -46,7 +46,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		0E21F75827A234E90040614E /* ProductCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductCollectionViewCell.swift; sourceTree = "<group>"; };
+		0E21F75827A234E90040614E /* ProductGridCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductGridCollectionViewCell.swift; sourceTree = "<group>"; };
 		0E64F4FE279E3E4B00AA22F2 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		0E64F502279E436D00AA22F2 /* OpenMarketAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenMarketAPI.swift; sourceTree = "<group>"; };
 		0E64F504279E443000AA22F2 /* APIConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIConstants.swift; sourceTree = "<group>"; };
@@ -89,7 +89,7 @@
 		0E21F75727A234CF0040614E /* View */ = {
 			isa = PBXGroup;
 			children = (
-				0E21F75827A234E90040614E /* ProductCollectionViewCell.swift */,
+				0E21F75827A234E90040614E /* ProductGridCollectionViewCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -312,7 +312,7 @@
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
 				0EC7D9B9279F91E600D43110 /* VendorData.swift in Sources */,
 				0E86A65D279EAADA00BB3BD5 /* ProductListData.swift in Sources */,
-				0E21F75927A234E90040614E /* ProductCollectionViewCell.swift in Sources */,
+				0E21F75927A234E90040614E /* ProductGridCollectionViewCell.swift in Sources */,
 				0EC7D9B7279F91D000D43110 /* ProductImageData.swift in Sources */,
 				0E86A645279E9BAD00BB3BD5 /* HTTPMethod.swift in Sources */,
 				0E8B50FF27A119DD00ADA183 /* NetworkError.swift in Sources */,

@@ -17,49 +17,24 @@ class ProductListViewController: UIViewController {
         return segmentedControl
     }()
     
-    private let productCollectionView: UICollectionView = UICollectionView()
-    
-//
-//    private let firstView: UIView = {
-//        let view: UIView = UIView()
-//        view.backgroundColor = UIColor.green
-//        view.translatesAutoresizingMaskIntoConstraints = false
-//        return view
-//    }()
-//
-//    private let secondView: UIView = {
-//        let view: UIView = UIView()
-//        view.backgroundColor = UIColor.red
-//        view.translatesAutoresizingMaskIntoConstraints = false
-//        return view
-//    }()
-//
-//    private lazy var contentStackView: UIStackView = {
-//        let stackView: UIStackView = UIStackView(arrangedSubviews: [firstView, secondView])
-//        stackView.axis = .horizontal
-//        stackView.alignment = .center
-//        stackView.spacing = 0
-//        stackView.translatesAutoresizingMaskIntoConstraints = false
-//        return stackView
-//    }()
-//
-//    private lazy var scrollView: UIScrollView = {
-//        let scrollView: UIScrollView = UIScrollView()
-//        scrollView.addSubview(contentStackView)
-//        scrollView.isPagingEnabled = true
-//        scrollView.showsHorizontalScrollIndicator = false
-//        scrollView.showsVerticalScrollIndicator = false
-//        scrollView.isScrollEnabled = false
-//        scrollView.translatesAutoresizingMaskIntoConstraints = false
-//        return scrollView
-//    }()
+    private lazy var productCollectionView: UICollectionView = {
+        let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .vertical
+        layout.sectionInset = UIEdgeInsets(top: 16, left: 16, bottom: 16, right: 16)
+        layout.minimumInteritemSpacing = 8
+        let cellWidth: CGFloat = (self.view.bounds.width / 2) - 40
+        let cellHeight: CGFloat = cellWidth * 1.5
+        layout.itemSize = CGSize(width: cellWidth, height: cellHeight)
+        let collectionView: UICollectionView = UICollectionView()
+        return collectionView
+    }()
     
     // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor.white
         setupNavigationBar()
-//        setupScrollView()
+        setupCollectionView()
     }
     
     // MARK: - Setup
@@ -69,26 +44,18 @@ class ProductListViewController: UIViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addProduct))
     }
     
-//    private func setupScrollView() {
-//        view.addSubview(scrollView)
-//        let safeArea: UILayoutGuide = view.safeAreaLayoutGuide
-//
-//        NSLayoutConstraint.activate([
-//            scrollView.topAnchor.constraint(equalTo: safeArea.topAnchor),
-//            scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-//            scrollView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
-//            scrollView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
-//            contentStackView.topAnchor.constraint(equalTo: scrollView.topAnchor),
-//            contentStackView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
-//            contentStackView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
-//            contentStackView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
-//
-//            firstView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
-//            firstView.heightAnchor.constraint(equalTo: scrollView.heightAnchor),
-//            secondView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
-//            secondView.heightAnchor.constraint(equalTo: scrollView.heightAnchor)
-//        ])
-//    }
+    private func setupCollectionView() {
+        view.addSubview(productCollectionView)
+        let safeArea:UILayoutGuide = view.safeAreaLayoutGuide
+        
+        NSLayoutConstraint.activate([productCollectionView.topAnchor.constraint(equalTo: safeArea.topAnchor),
+                                     productCollectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+                                     productCollectionView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
+                                     productCollectionView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor)])
+        
+        productCollectionView.delegate = self
+        productCollectionView.dataSource = self
+    }
     
     // MARK: - Functions
     @objc
@@ -100,20 +67,20 @@ class ProductListViewController: UIViewController {
 //        }
     }
     
-//    func scrollToCollectionView() {
-//        if scrollView.contentOffset.x < self.view.bounds.width {
-//            scrollView.setContentOffset(CGPoint(x: scrollView.contentOffset.x + view.bounds.width, y: scrollView.contentOffset.y), animated: true)
-//        }
-//    }
-//
-//    func scrollToTableView() {
-//        if scrollView.contentOffset.x >= self.view.bounds.width {
-//            scrollView.setContentOffset(CGPoint(x: 0, y: scrollView.contentOffset.y), animated: true)
-//        }
-//    }
-    
     @objc
     func addProduct() {
         print("Add")
     }
+}
+
+extension ProductListViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 0
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        <#code#>
+    }
+    
+    
 }
