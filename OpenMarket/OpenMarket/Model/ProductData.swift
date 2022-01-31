@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 struct ProductData: Codable {
     let id: Int
@@ -21,6 +22,11 @@ struct ProductData: Codable {
     let issuedAt: String
     let images: [ProductImageData]?
     let vendors: VendorData?
+    
+    var thumbnailImageURL: URL? {
+        guard let url: URL = URL(string: thumbnail) else { return nil }
+        return url
+    }
     
     enum CodingKeys: String, CodingKey {
         case id
