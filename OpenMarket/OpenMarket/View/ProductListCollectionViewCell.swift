@@ -1,14 +1,23 @@
 //
-//  ProductCollectionViewCell.swift
+//  ProductListCollectionViewCell.swift
 //  OpenMarket
 //
-//  Created by Jinwook Huh on 2022/01/27.
+//  Created by Jinwook Huh on 2022/01/31.
 //
 
 import UIKit
 
-class ProductGridCollectionViewCell: UICollectionViewCell {
-    static let identifier: String = "ProductGridCollectionViewCell"
+class ProductListCollectionViewCell: UICollectionViewCell {
+    static let identifier: String = "ProductListCollectionViewCell"
+    
+    private let accessoryImageView: UIImageView = {
+        let imageView: UIImageView = UIImageView()
+        imageView.image = UIImage(systemName: "chevron.right")
+        imageView.tintColor = .gray
+        imageView.contentMode = .scaleAspectFit
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        return imageView
+    }()
     
     private let productImageView: UIImageView = {
         let imageView: UIImageView = UIImageView()
@@ -56,31 +65,35 @@ class ProductGridCollectionViewCell: UICollectionViewCell {
     private lazy var priceStackView: UIStackView = {
         let stackView: UIStackView = UIStackView(arrangedSubviews: [priceLabel,
                                                                     bargainPriceLabel])
-        stackView.axis = .vertical
+        stackView.axis = .horizontal
         stackView.alignment = .center
-        stackView.spacing = 0
+        stackView.spacing = 4
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
     
     private lazy var labelStackView: UIStackView = {
         let stackView: UIStackView = UIStackView(arrangedSubviews: [productNameLabel,
-                                                                    priceStackView,
-                                                                    stockCountLabel])
+                                                                    priceStackView])
         stackView.axis = .vertical
-        stackView.alignment = .center
-        stackView.distribution = .equalSpacing
+        stackView.alignment = .leading
+        stackView.spacing = 4
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
     
+    private let separatorView: UIView = {
+        let separatorView: UIView = UIView()
+        separatorView.backgroundColor = .systemGray5
+        separatorView.translatesAutoresizingMaskIntoConstraints = false
+        return separatorView
+    }()
+    
     override init(frame: CGRect) {
         super.init(frame: .zero)
-        layer.cornerRadius = 10
-        layer.borderColor = UIColor.systemGray4.cgColor
-        layer.borderWidth = 1.5
         setupProductImageView()
-        setupLabelStackView()
+        setupLabels()
+        setupSeparatorView()
     }
     
     required init?(coder: NSCoder) {
@@ -95,18 +108,34 @@ class ProductGridCollectionViewCell: UICollectionViewCell {
     
     private func setupProductImageView() {
         contentView.addSubview(productImageView)
-        NSLayoutConstraint.activate([productImageView.widthAnchor.constraint(equalTo: contentView.widthAnchor, constant: -36),
+        NSLayoutConstraint.activate([productImageView.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.15),
                                      productImageView.heightAnchor.constraint(equalTo: productImageView.widthAnchor),
-                                     productImageView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-                                     productImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8)])
+                                     productImageView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+                                     productImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor)])
     }
     
-    private func setupLabelStackView() {
+    private func setupLabels() {
         contentView.addSubview(labelStackView)
+        contentView.addSubview(stockCountLabel)
+        contentView.addSubview(accessoryImageView)
+
+        NSLayoutConstraint.activate([labelStackView.leadingAnchor.constraint(equalTo: productImageView.trailingAnchor, constant: 8),
+                                     labelStackView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+                                     stockCountLabel.centerYAnchor.constraint(equalTo: productNameLabel.centerYAnchor),
+                                     stockCountLabel.trailingAnchor.constraint(equalTo: accessoryImageView.leadingAnchor, constant: -10),
+                                     accessoryImageView.heightAnchor.constraint(equalTo: stockCountLabel.heightAnchor),
+                                     accessoryImageView.widthAnchor.constraint(equalTo: accessoryImageView.widthAnchor),
+                                     accessoryImageView.centerYAnchor.constraint(equalTo: stockCountLabel.centerYAnchor),
+                                     accessoryImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)])
+    }
+    
+    private func setupSeparatorView() {
+        contentView.addSubview(separatorView)
         
-        NSLayoutConstraint.activate([labelStackView.topAnchor.constraint(equalTo: productImageView.bottomAnchor, constant: 8),
-                                     labelStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8),
-                                     labelStackView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor)])
+        NSLayoutConstraint.activate([separatorView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+                                     separatorView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+                                     separatorView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+                                     separatorView.heightAnchor.constraint(equalToConstant: 1)])
     }
     
     func bind(item data: ProductData) {

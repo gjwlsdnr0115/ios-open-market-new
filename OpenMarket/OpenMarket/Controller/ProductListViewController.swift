@@ -17,7 +17,18 @@ class ProductListViewController: UIViewController {
         return segmentedControl
     }()
     
-    private lazy var productCollectionView: UICollectionView = {
+    private lazy var listFlowLayout: UICollectionViewFlowLayout = {
+        let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .vertical
+        layout.sectionInset = UIEdgeInsets(top: 16, left: 16, bottom: 16, right: 16)
+        layout.minimumLineSpacing = 0
+        let cellWidth: CGFloat = self.view.bounds.width - 32
+        let cellHeight: CGFloat = 72
+        layout.itemSize = CGSize(width: cellWidth, height: cellHeight)
+        return layout
+    }()
+    
+    private lazy var gridFlowLayout: UICollectionViewFlowLayout = {
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
         layout.sectionInset = UIEdgeInsets(top: 16, left: 16, bottom: 16, right: 16)
@@ -25,12 +36,28 @@ class ProductListViewController: UIViewController {
         let cellWidth: CGFloat = (self.view.bounds.width - 40) / 2
         let cellHeight: CGFloat = cellWidth * 1.5
         layout.itemSize = CGSize(width: cellWidth, height: cellHeight)
-        let collectionView: UICollectionView = UICollectionView(frame: self.view.frame, collectionViewLayout: layout)
+        return layout
+    }()
+    
+    private lazy var productCollectionView: UICollectionView = {
+        let collectionView: UICollectionView = UICollectionView(frame: self.view.frame, collectionViewLayout: listFlowLayout)
+        collectionView.register(ProductListCollectionViewCell.self, forCellWithReuseIdentifier: ProductListCollectionViewCell.identifier)
         collectionView.register(ProductGridCollectionViewCell.self, forCellWithReuseIdentifier: ProductGridCollectionViewCell.identifier)
         return collectionView
     }()
     
     private var productListData: ProductListData?
+    
+    var isListView: Bool = true {
+        didSet {
+            switch isListView {
+            case true:
+                setToListView()
+            case false:
+                setToGridView()
+            }
+        }
+    }
     
     // MARK: - Life Cycle
     override func viewDidLoad() {
@@ -50,12 +77,6 @@ class ProductListViewController: UIViewController {
     
     private func setupCollectionView() {
         view.addSubview(productCollectionView)
-        let safeArea: UILayoutGuide = view.safeAreaLayoutGuide
-        
-        NSLayoutConstraint.activate([productCollectionView.topAnchor.constraint(equalTo: view.topAnchor),
-                                     productCollectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-                                     productCollectionView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
-                                     productCollectionView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor)])
         
         productCollectionView.delegate = self
         productCollectionView.dataSource = self
@@ -65,7 +86,7 @@ class ProductListViewController: UIViewController {
     
     private func fetchProductListData() {
         print("fetching")
-        OpenMarketAPI.shared.getProductList(pageNo: 1, itemsPerPage: 10) { [weak self] result in
+        OpenMarketAPI.shared.getProductList(pageNo: 1, itemsPerPage: 20) { [weak self] result in
             switch result {
             case .success(let data):
                 self?.productListData = data
@@ -81,11 +102,21 @@ class ProductListViewController: UIViewController {
     
     @objc
     func segmentedControlValueChanged(_ sender: UISegmentedControl) {
-//        if sender.selectedSegmentIndex == 0 {
-//            scrollToTableView()
-//        } else if sender.selectedSegmentIndex == 1 {
-//            scrollToCollectionView()
-//        }
+        if sender.selectedSegmentIndex == 0 {
+            isListView = true
+        } else if sender.selectedSegmentIndex == 1 {
+            isListView = false
+        }
+    }
+    
+    private func setToGridView() {
+        productCollectionView.reloadData()
+        productCollectionView.setCollectionViewLayout(gridFlowLayout, animated: true)
+    }
+    
+    private func setToListView() {
+        productCollectionView.reloadData()
+        productCollectionView.setCollectionViewLayout(listFlowLayout, animated: true)
     }
     
     @objc
@@ -103,6 +134,12 @@ extension ProductListViewController: UICollectionViewDelegate, UICollectionViewD
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        if isListView {
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProductListCollectionViewCell.identifier, for: indexPath) as? ProductListCollectionViewCell else { return UICollectionViewCell() }
+            guard let data: ProductData = productListData?.pages[indexPath.row] else { return UICollectionViewCell() }
+            cell.bind(item: data)
+            return cell
+        }
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProductGridCollectionViewCell.identifier, for: indexPath) as? ProductGridCollectionViewCell else { return UICollectionViewCell() }
         guard let data: ProductData = productListData?.pages[indexPath.row] else { return UICollectionViewCell() }
         cell.bind(item: data)

@@ -11,6 +11,7 @@
 		0E45595227A69FF800AA8F56 /* UIImageView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E45595127A69FF800AA8F56 /* UIImageView+Extension.swift */; };
 		0E45595527A796D500AA8F56 /* Int+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E45595427A796D500AA8F56 /* Int+Extension.swift */; };
 		0E45595727A79A2000AA8F56 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E45595627A79A2000AA8F56 /* String+Extension.swift */; };
+		0E45595927A7A8B200AA8F56 /* ProductListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E45595827A7A8B200AA8F56 /* ProductListCollectionViewCell.swift */; };
 		0E64F4FF279E3E4B00AA22F2 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 0E64F4FE279E3E4B00AA22F2 /* .swiftlint.yml */; };
 		0E64F503279E436D00AA22F2 /* OpenMarketAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E64F502279E436D00AA22F2 /* OpenMarketAPI.swift */; };
 		0E64F505279E443000AA22F2 /* APIConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E64F504279E443000AA22F2 /* APIConstants.swift */; };
@@ -53,6 +54,7 @@
 		0E45595127A69FF800AA8F56 /* UIImageView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Extension.swift"; sourceTree = "<group>"; };
 		0E45595427A796D500AA8F56 /* Int+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+Extension.swift"; sourceTree = "<group>"; };
 		0E45595627A79A2000AA8F56 /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
+		0E45595827A7A8B200AA8F56 /* ProductListCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductListCollectionViewCell.swift; sourceTree = "<group>"; };
 		0E64F4FE279E3E4B00AA22F2 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		0E64F502279E436D00AA22F2 /* OpenMarketAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenMarketAPI.swift; sourceTree = "<group>"; };
 		0E64F504279E443000AA22F2 /* APIConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIConstants.swift; sourceTree = "<group>"; };
@@ -96,6 +98,7 @@
 			isa = PBXGroup;
 			children = (
 				0E21F75827A234E90040614E /* ProductGridCollectionViewCell.swift */,
+				0E45595827A7A8B200AA8F56 /* ProductListCollectionViewCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -336,6 +339,7 @@
 				0E86A645279E9BAD00BB3BD5 /* HTTPMethod.swift in Sources */,
 				0E8B50FF27A119DD00ADA183 /* NetworkError.swift in Sources */,
 				0E64F503279E436D00AA22F2 /* OpenMarketAPI.swift in Sources */,
+				0E45595927A7A8B200AA8F56 /* ProductListCollectionViewCell.swift in Sources */,
 				0E45595527A796D500AA8F56 /* Int+Extension.swift in Sources */,
 				0E8B510327A18E4C00ADA183 /* ProductListViewController.swift in Sources */,
 				0E86A65F279EABA900BB3BD5 /* ProductData.swift in Sources */,
