@@ -46,6 +46,12 @@ class ProductListViewController: UIViewController {
         return collectionView
     }()
     
+    private let loadingIndicatorView: UIActivityIndicatorView = {
+        let indicatorView: UIActivityIndicatorView = UIActivityIndicatorView(style: .large)
+        indicatorView.translatesAutoresizingMaskIntoConstraints = false
+        return indicatorView
+    }()
+    
     private var productListData: ProductListData?
     
     var isListView: Bool = true {
@@ -65,6 +71,7 @@ class ProductListViewController: UIViewController {
         view.backgroundColor = UIColor.white
         setupNavigationBar()
         setupCollectionView()
+        setupIndicatorView()
         fetchProductListData()
     }
     
@@ -82,10 +89,17 @@ class ProductListViewController: UIViewController {
         productCollectionView.dataSource = self
     }
     
+    func setupIndicatorView() {
+        view.addSubview(loadingIndicatorView)
+        
+        NSLayoutConstraint.activate([loadingIndicatorView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+                                     loadingIndicatorView.centerYAnchor.constraint(equalTo: view.centerYAnchor)])
+    }
+    
     // MARK: - Functions
     
     private func fetchProductListData() {
-        print("fetching")
+        loadingIndicatorView.startAnimating()
         OpenMarketAPI.shared.getProductList(pageNo: 1, itemsPerPage: 20) { [weak self] result in
             switch result {
             case .success(let data):
@@ -96,6 +110,10 @@ class ProductListViewController: UIViewController {
                 
             case .failure(let error):
                 print(error.rawValue)
+            }
+            
+            DispatchQueue.main.async {
+                self?.loadingIndicatorView.stopAnimating()
             }
         }
     }

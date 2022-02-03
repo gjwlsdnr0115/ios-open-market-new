@@ -104,6 +104,7 @@ class ProductListCollectionViewCell: UICollectionViewCell {
         super.prepareForReuse()
         priceLabel.isHidden = false
         productImageView.image = nil
+        stockCountLabel.textColor = .gray
     }
     
     private func setupProductImageView() {
