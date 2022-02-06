@@ -7,11 +7,11 @@
 
 import Foundation
 
-extension Int {
+extension Double {
     func currencyFormat() -> String {
         let formatter: NumberFormatter = NumberFormatter()
         formatter.numberStyle = .currency
-        formatter.maximumFractionDigits = 0
+        formatter.maximumFractionDigits = 2
         formatter.currencySymbol = ""
         if let currencyString: String = formatter.string(for: self) {
             return currencyString

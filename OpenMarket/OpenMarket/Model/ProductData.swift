@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import UIKit
 
 struct ProductData: Codable {
     let id: Int
@@ -14,8 +13,8 @@ struct ProductData: Codable {
     let name: String
     let thumbnail: String
     let currency: String
-    let price: Int
-    let bargainPrice: Int
+    let price: Double
+    let bargainPrice: Double
     let discountedPrice: Int
     let stock: Int
     let createdAt: String

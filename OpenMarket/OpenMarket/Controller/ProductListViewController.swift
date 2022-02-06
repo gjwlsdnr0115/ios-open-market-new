@@ -8,6 +8,11 @@
 import UIKit
 
 class ProductListViewController: UIViewController {
+    private enum LayoutType {
+        case list
+        case grid
+    }
+    
     // MARK: - Views
     private lazy var segmentedControl: UISegmentedControl = {
         let segmentedControl: UISegmentedControl = UISegmentedControl(items: ["LIST", "GRID"])
@@ -54,12 +59,12 @@ class ProductListViewController: UIViewController {
     
     private var productListData: ProductListData?
     
-    var isListView: Bool = true {
+    private var currentLayoutType: LayoutType = .list {
         didSet {
-            switch isListView {
-            case true:
+            switch currentLayoutType {
+            case .list:
                 setToListView()
-            case false:
+            case .grid:
                 setToGridView()
             }
         }
@@ -121,9 +126,9 @@ class ProductListViewController: UIViewController {
     @objc
     func segmentedControlValueChanged(_ sender: UISegmentedControl) {
         if sender.selectedSegmentIndex == 0 {
-            isListView = true
+            currentLayoutType = .list
         } else if sender.selectedSegmentIndex == 1 {
-            isListView = false
+            currentLayoutType = .grid
         }
     }
     
@@ -145,22 +150,21 @@ class ProductListViewController: UIViewController {
 
 extension ProductListViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if let productCount: Int = productListData?.pages.count {
-            return productCount
-        }
-        return 0
+        productListData?.pages.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        if isListView {
+        switch currentLayoutType {
+        case .list:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProductListCollectionViewCell.identifier, for: indexPath) as? ProductListCollectionViewCell else { return UICollectionViewCell() }
             guard let data: ProductData = productListData?.pages[indexPath.row] else { return UICollectionViewCell() }
             cell.bind(item: data)
             return cell
+        case .grid:
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProductGridCollectionViewCell.identifier, for: indexPath) as? ProductGridCollectionViewCell else { return UICollectionViewCell() }
+            guard let data: ProductData = productListData?.pages[indexPath.row] else { return UICollectionViewCell() }
+            cell.bind(item: data)
+            return cell
         }
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProductGridCollectionViewCell.identifier, for: indexPath) as? ProductGridCollectionViewCell else { return UICollectionViewCell() }
-        guard let data: ProductData = productListData?.pages[indexPath.row] else { return UICollectionViewCell() }
-        cell.bind(item: data)
-        return cell
     }
 }
