@@ -13,14 +13,19 @@ struct ProductData: Codable {
     let name: String
     let thumbnail: String
     let currency: String
-    let price: Int
-    let bargainPrice: Int
+    let price: Double
+    let bargainPrice: Double
     let discountedPrice: Int
     let stock: Int
     let createdAt: String
     let issuedAt: String
     let images: [ProductImageData]?
     let vendors: VendorData?
+    
+    var thumbnailImageURL: URL? {
+        guard let url: URL = URL(string: thumbnail) else { return nil }
+        return url
+    }
     
     enum CodingKeys: String, CodingKey {
         case id
