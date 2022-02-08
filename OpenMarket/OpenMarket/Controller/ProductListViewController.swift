@@ -144,7 +144,9 @@ class ProductListViewController: UIViewController {
     
     @objc
     func addProduct() {
-        print("Add")
+        let addProductViewController: UINavigationController = UINavigationController(rootViewController: AddProductViewController())
+        addProductViewController.modalPresentationStyle = .fullScreen
+        present(addProductViewController, animated: true, completion: nil)
     }
 }
 

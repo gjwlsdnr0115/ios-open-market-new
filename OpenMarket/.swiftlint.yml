@@ -569,4 +569,5 @@ reporter: "xcode"
 excluded:
     - OpenMarket/AppDelegate.swift
     - OpenMarket/SceneDelegate.swift
+    - OpenMarketTests/OpenMarketTests.swift
 
